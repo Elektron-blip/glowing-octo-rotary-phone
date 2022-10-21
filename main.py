@@ -10,7 +10,7 @@ db = connect(
     user=getenv("DB_USER"),
     password=getenv("DB_PASS"),
     host=getenv("DB_HOST"),
-    port=getenv("DB_PORT"),
+    port=int(getenv("DB_PORT")), # type:ignore
 )
 cursor = db.cursor()
 
