@@ -1,4 +1,3 @@
-import base64
 from fastapi import FastAPI
 import psycopg
 
@@ -148,7 +147,7 @@ async def select_birthdays(username: str):
         return {"state": "Success", "data":cursor.fetchone()}
     except:
         return {"state": "Failed"}
-        
+
 @app.put("birthdays/insert?username={username}&data={data}")
 async def insert_birthdays(username: str, data: str):
     try:
