@@ -2,6 +2,7 @@ from os import getenv
 
 from fastapi import FastAPI
 from psycopg import connect
+from psycopg.types.json import Jsonb
 
 app: FastAPI = FastAPI()
 db = connect(
@@ -223,7 +224,7 @@ async def insert_birthdays(username: str, data: str):
     try:
         cursor.execute(
             "INSERT INTO birthdays (username, data) VALUES (%s, %s) WHERE username = %s",
-            (username, data, username),
+            (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username),
         )
         return {"state": "Success"}
     except:
@@ -234,7 +235,7 @@ async def insert_birthdays(username: str, data: str):
 async def update_birthdays(username: str, data: str):
     try:
         cursor.execute("UPDATE birthdays SET data = %s WHERE username = %s",
-                       (data, username))
+                       (Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username))
         return {"state": "Success"}
     except:
         return {"state": "Failed"}
