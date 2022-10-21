@@ -1,1 +1,1 @@
-web: hypercorn main:app --bind 0.0.0.0:443
+web: hypercorn main:app --bind 0.0.0.0:$PORT
