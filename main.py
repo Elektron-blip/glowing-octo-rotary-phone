@@ -73,18 +73,17 @@ async def select_alarms(username: str):
     try:
         cursor.execute("SELECT * FROM alarms WHERE username = %s",
                        (username, ))
-        return {"state": "Success", "data": cursor.fetchall()}
+        return {"state": "Success", "data": cursor.fetchone()}
     except:
         return {"state": "Failed"}
 
 
 @app.put("/alarms/insert")
-async def insert_alarms(username: str, alarm: str):
-    alarms: "list[str]" = alarm[1:-1].split(",")
+async def insert_alarms(username: str, alarms: list[str]=Query()):
     try:
         cursor.execute(
             "INSERT INTO alarms (username, alarms) VALUES (%s, %s)",
-            (username, alarms, username),
+            (username, alarms),
         )
         return {"state": "Success"}
     except:
@@ -92,8 +91,7 @@ async def insert_alarms(username: str, alarm: str):
 
 
 @app.patch("/alarms/update")
-async def update_alarms(username: str, alarm: str):
-    alarms: "list[str]" = alarm[1:-1].split(",")
+async def update_alarms(username: str, alarms: list[str]=Query()):
     try:
         cursor.execute("UPDATE alarms SET alarms = %s WHERE username = %s",
                        (alarms, username))
@@ -124,13 +122,13 @@ async def select_medicines(username: str):
 @app.put(
     "/medicines/insert"
 )
-async def insert_medicines(username: str, medicine: str, dose: str, time: str,
-                           inventory: int):
+async def insert_medicines(username: str, data:str):
     try:
-        cursor.execute(
-            "INSERT INTO medicines (username, medicines, dose, time, inventory) VALUES (%s, %s, %s, %s, %s)",
-            (username, medicine, dose, time, inventory, username),
-        )
+        #cursor.execute(
+        #    "INSERT INTO medicines (username, medicines, dose, time, inventory) VALUES (%s, %s, %s, %s, %s)",
+        #    (username, medicine, dose, time, inventory),
+        #)
+        cursor.execute("INSERT INTO medicines (username, data) VALUES (%s, %s)", (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]]))))
         return {"state": "Success"}
     except:
         return {"state": "Failed"}
@@ -139,12 +137,11 @@ async def insert_medicines(username: str, medicine: str, dose: str, time: str,
 @app.patch(
     "/medicines/update"
 )
-async def update_medicines(username: str, medicine: str, dose: str, time: str,
-                           inventory: int):
+async def update_medicines(username: str, data: str):
     try:
         cursor.execute(
-            "UPDATE medicines SET medicines = %s, dose = %s, time = %s, inventory = %s WHERE username = %s",
-            (medicine, dose, time, inventory, username),
+            "UPDATE medicines SET data = %s WHERE username = %s",
+            (Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username),
         )
         return {"state": "Success"}
     except:
@@ -152,11 +149,11 @@ async def update_medicines(username: str, medicine: str, dose: str, time: str,
 
 
 @app.delete("/medicines/delete")
-async def delete_medicines(username: str, medicine: str):
+async def delete_medicines(username: str):
     try:
         cursor.execute(
-            "DELETE FROM medicines WHERE username = %s AND medicines = %s",
-            (username, medicine),
+            "DELETE FROM medicines WHERE username = %s",
+            (username),
         )
         return {"state": "Success"}
     except:
