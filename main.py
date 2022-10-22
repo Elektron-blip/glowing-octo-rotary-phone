@@ -21,7 +21,7 @@ async def select_finance(username: str):
     try:
         cursor.execute("SELECT * FROM finance WHERE username = %s",
                        (username, ))
-        return {"state": "Success", "data": cursor.fetchall()}
+        return {"state": "Success", "data": cursor.fetchone()}
     except:
         return {"state": "Failed"}
 
@@ -29,12 +29,11 @@ async def select_finance(username: str):
 @app.put(
     "/finance/insert"
 )
-async def insert_finance(username: str, account: str, amount: int,
-                         branch: str):
+async def insert_finance(username: str, data: str):
     try:
         cursor.execute(
-            "INSERT INTO finance (username, account, amount, branch) VALUES (%s, %s, %s, %s)",
-            (username, account, amount, branch, username),
+            "INSERT INTO finance (username, data) VALUES (%s, %s)",
+            (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])))
         )
         return {"state": "Success"}
     except:
@@ -44,12 +43,11 @@ async def insert_finance(username: str, account: str, amount: int,
 @app.patch(
     "/finance/update"
 )
-async def update_finance(username: str, account: str, amount: int,
-                         branch: str):
+async def update_finance(username: str, data: str):
     try:
         cursor.execute(
-            "UPDATE finance SET account = %s, amount = %s, branch = %s WHERE username = %s",
-            (account, amount, branch, username),
+            "UPDATE finance SET data = %s WHERE username = %s",
+            (Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username),
         )
         return {"state": "Success"}
     except:
@@ -57,11 +55,11 @@ async def update_finance(username: str, account: str, amount: int,
 
 
 @app.delete("/finance/delete")
-async def delete_finance(username: str, account: str):
+async def delete_finance(username: str):
     try:
         cursor.execute(
-            "DELETE FROM finance WHERE username = %s AND account = %s",
-            (username, account),
+            "DELETE FROM finance WHERE username = %s",
+            (username,),
         )
         return {"state": "Success"}
     except:
