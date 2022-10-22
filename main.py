@@ -181,8 +181,7 @@ async def insert_emergency(username: str, numbers: list[int]=Query()):
             (username, numbers),
         )
         return {"state": "Success"}
-    except psycopg.errors.Error as e:
-        print(e)
+    except:
         return {"state": "Failed"}
 
 
@@ -192,7 +191,7 @@ async def update_emergency(username: str, numbers: list[int]= Query()):
         cursor.execute("UPDATE emergency SET numbers = %s WHERE username = %s",
                        (numbers, username))
         return {"state": "Success"}
-    except psycopg.errors.Error as e:
+    except:
         return {"state": "Failed"}
 
 
@@ -221,7 +220,7 @@ async def insert_birthdays(username: str, data: str):
     try:
         cursor.execute(
             "INSERT INTO birthdays (username, data) VALUES (%s, %s)",
-            (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username),
+            (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]]))),
         )
         return {"state": "Success"}
     except:
