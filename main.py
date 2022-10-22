@@ -3,15 +3,10 @@ from os import getenv
 from fastapi import FastAPI
 from psycopg import connect
 from psycopg.types.json import Jsonb
+from psycopg.conninfo import conninfo_to_dict
 
 app: FastAPI = FastAPI()
-db = connect(
-    dbname=getenv("DB_NAME"),
-    user=getenv("DB_USER"),
-    password=getenv("DB_PASS"),
-    host=getenv("DB_HOST"),
-    port=int(getenv("DB_PORT")), # type:ignore
-)
+db = connect(**conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True)  # type: ignore
 cursor = db.cursor()
 
 
@@ -20,7 +15,7 @@ async def read_root():
     return {"message": "Hello World"}
 
 
-@app.get("/finance/select?username={username}")
+@app.get("/finance/select")
 async def select_finance(username: str):
     try:
         cursor.execute("SELECT * FROM finance WHERE username = %s",
@@ -31,7 +26,7 @@ async def select_finance(username: str):
 
 
 @app.put(
-    "/finance/insert?username={username}&account={account}&amount={amount}&branch={branch}"
+    "/finance/insert"
 )
 async def insert_finance(username: str, account: str, amount: int,
                          branch: str):
@@ -46,7 +41,7 @@ async def insert_finance(username: str, account: str, amount: int,
 
 
 @app.patch(
-    "/finance/update?username={username}&account={account}&amount={amount}&branch={branch}"
+    "/finance/update"
 )
 async def update_finance(username: str, account: str, amount: int,
                          branch: str):
@@ -60,7 +55,7 @@ async def update_finance(username: str, account: str, amount: int,
         return {"state": "Failed"}
 
 
-@app.delete("/finance/delete?username={username}&account={account}")
+@app.delete("/finance/delete")
 async def delete_finance(username: str, account: str):
     try:
         cursor.execute(
@@ -72,7 +67,7 @@ async def delete_finance(username: str, account: str):
         return {"state": "Failed"}
 
 
-@app.get("/alarms/select?username={username}")
+@app.get("/alarms/select")
 async def select_alarms(username: str):
     try:
         cursor.execute("SELECT * FROM alarms WHERE username = %s",
@@ -82,7 +77,7 @@ async def select_alarms(username: str):
         return {"state": "Failed"}
 
 
-@app.put("/alarms/insert?username={username}&alarms={alarm}")
+@app.put("/alarms/insert")
 async def insert_alarms(username: str, alarm: str):
     alarms: "list[str]" = alarm[1:-1].split(",")
     try:
@@ -95,7 +90,7 @@ async def insert_alarms(username: str, alarm: str):
         return {"state": "Failed"}
 
 
-@app.patch("/alarms/update?username={username}&alarms={alarm}")
+@app.patch("/alarms/update")
 async def update_alarms(username: str, alarm: str):
     alarms: "list[str]" = alarm[1:-1].split(",")
     try:
@@ -106,7 +101,7 @@ async def update_alarms(username: str, alarm: str):
         return {"state": "Failed"}
 
 
-@app.delete("/alarms/delete?username={username}")
+@app.delete("/alarms/delete")
 async def delete_alarms(username: str):
     try:
         cursor.execute("DELETE FROM alarms WHERE username = %s", (username, ))
@@ -115,7 +110,7 @@ async def delete_alarms(username: str):
         return {"state": "Failed"}
 
 
-@app.get("/medicines/select?username={username}")
+@app.get("/medicines/select")
 async def select_medicines(username: str):
     try:
         cursor.execute("SELECT * FROM medicines WHERE username = %s",
@@ -126,7 +121,7 @@ async def select_medicines(username: str):
 
 
 @app.put(
-    "/medicines/insert?username={username}&medicines={medicine}&dose={dose}&time={time}&inventory={inventory}"
+    "/medicines/insert"
 )
 async def insert_medicines(username: str, medicine: str, dose: str, time: str,
                            inventory: int):
@@ -141,7 +136,7 @@ async def insert_medicines(username: str, medicine: str, dose: str, time: str,
 
 
 @app.patch(
-    "/medicines/update?username={username}&medicines={medicine}&dose={dose}&time={time}&inventory={inventory}"
+    "/medicines/update"
 )
 async def update_medicines(username: str, medicine: str, dose: str, time: str,
                            inventory: int):
@@ -155,7 +150,7 @@ async def update_medicines(username: str, medicine: str, dose: str, time: str,
         return {"state": "Failed"}
 
 
-@app.delete("/medicines/delete?username={username}&medicines={medicine}")
+@app.delete("/medicines/delete")
 async def delete_medicines(username: str, medicine: str):
     try:
         cursor.execute(
@@ -167,7 +162,7 @@ async def delete_medicines(username: str, medicine: str):
         return {"state": "Failed"}
 
 
-@app.get("/emergency/select?username={username}")
+@app.get("/emergency/select")
 async def select_emergency(username: str):
     try:
         cursor.execute("SELECT * FROM emergency WHERE username = %s",
@@ -177,8 +172,9 @@ async def select_emergency(username: str):
         return {"state": "Failed"}
 
 
-@app.put("emergency/insert?username={username}&number={number}")
-async def insert_emergency(username: str, number: str):
+@app.put("emergency/insert")
+async def insert_emergency(username: str, number: list[int]):
+    print(number)
     try:
         cursor.execute(
             "INSERT INTO emergency (username, number) VALUES (%s, %s) WHERE username = %s",
@@ -189,8 +185,8 @@ async def insert_emergency(username: str, number: str):
         return {"state": "Failed"}
 
 
-@app.patch("emergency/update?username={username}&number={number}")
-async def update_emergency(username: str, number: str):
+@app.patch("emergency/update")
+async def update_emergency(username: str, number: list[int]):
     try:
         cursor.execute("UPDATE emergency SET number = %s WHERE username = %s",
                        (number, username))
@@ -199,7 +195,7 @@ async def update_emergency(username: str, number: str):
         return {"state": "Failed"}
 
 
-@app.delete("emergency/delete?username={username}")
+@app.delete("emergency/delete")
 async def delete_emergency(username: str):
     try:
         cursor.execute("DELETE FROM emergency WHERE username = %s",
@@ -209,7 +205,7 @@ async def delete_emergency(username: str):
         return {"state": "Failed"}
 
 
-@app.get("birthdays/select?username={username}")
+@app.get("birthdays/select")
 async def select_birthdays(username: str):
     try:
         cursor.execute("SELECT * FROM birthdays WHERE username = %s",
@@ -219,7 +215,7 @@ async def select_birthdays(username: str):
         return {"state": "Failed"}
 
 
-@app.put("birthdays/insert?username={username}&data={data}")
+@app.put("birthdays/insert")
 async def insert_birthdays(username: str, data: str):
     try:
         cursor.execute(
@@ -231,7 +227,7 @@ async def insert_birthdays(username: str, data: str):
         return {"state": "Failed"}
 
 
-@app.patch("birthdays/update?username={username}&data={data}")
+@app.patch("birthdays/update")
 async def update_birthdays(username: str, data: str):
     try:
         cursor.execute("UPDATE birthdays SET data = %s WHERE username = %s",
@@ -241,7 +237,7 @@ async def update_birthdays(username: str, data: str):
         return {"state": "Failed"}
 
 
-@app.delete("birthdays/delete?username={username}")
+@app.delete("birthdays/delete")
 async def delete_birthdays(username: str):
     try:
         cursor.execute("DELETE FROM birthdays WHERE username = %s",
