@@ -1,9 +1,10 @@
 from os import getenv
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from psycopg import connect
 from psycopg.types.json import Jsonb
 from psycopg.conninfo import conninfo_to_dict
+import psycopg
 
 app: FastAPI = FastAPI()
 db = connect(**conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True)  # type: ignore
@@ -32,7 +33,7 @@ async def insert_finance(username: str, account: str, amount: int,
                          branch: str):
     try:
         cursor.execute(
-            "INSERT INTO finance (username, account, amount, branch) VALUES (%s, %s, %s, %s) WHERE username = %s",
+            "INSERT INTO finance (username, account, amount, branch) VALUES (%s, %s, %s, %s)",
             (username, account, amount, branch, username),
         )
         return {"state": "Success"}
@@ -82,7 +83,7 @@ async def insert_alarms(username: str, alarm: str):
     alarms: "list[str]" = alarm[1:-1].split(",")
     try:
         cursor.execute(
-            "INSERT INTO alarms (username, alarms) VALUES (%s, %s) WHERE username = %s",
+            "INSERT INTO alarms (username, alarms) VALUES (%s, %s)",
             (username, alarms, username),
         )
         return {"state": "Success"}
@@ -127,7 +128,7 @@ async def insert_medicines(username: str, medicine: str, dose: str, time: str,
                            inventory: int):
     try:
         cursor.execute(
-            "INSERT INTO medicines (username, medicines, dose, time, inventory) VALUES (%s, %s, %s, %s, %s) WHERE username = %s",
+            "INSERT INTO medicines (username, medicines, dose, time, inventory) VALUES (%s, %s, %s, %s, %s)",
             (username, medicine, dose, time, inventory, username),
         )
         return {"state": "Success"}
@@ -172,30 +173,30 @@ async def select_emergency(username: str):
         return {"state": "Failed"}
 
 
-@app.put("emergency/insert")
-async def insert_emergency(username: str, number: list[int]):
-    print(number)
+@app.put("/emergency/insert")
+async def insert_emergency(username: str, numbers: list[int]=Query()):
     try:
         cursor.execute(
-            "INSERT INTO emergency (username, number) VALUES (%s, %s) WHERE username = %s",
-            (username, number, username),
+            "INSERT INTO emergency (username, numbers) VALUES (%s, %s)",
+            (username, numbers),
         )
         return {"state": "Success"}
-    except:
+    except psycopg.errors.Error as e:
+        print(e)
         return {"state": "Failed"}
 
 
-@app.patch("emergency/update")
-async def update_emergency(username: str, number: list[int]):
+@app.patch("/emergency/update")
+async def update_emergency(username: str, numbers: list[int]= Query()):
     try:
-        cursor.execute("UPDATE emergency SET number = %s WHERE username = %s",
-                       (number, username))
+        cursor.execute("UPDATE emergency SET numbers = %s WHERE username = %s",
+                       (numbers, username))
         return {"state": "Success"}
-    except:
+    except psycopg.errors.Error as e:
         return {"state": "Failed"}
 
 
-@app.delete("emergency/delete")
+@app.delete("/emergency/delete")
 async def delete_emergency(username: str):
     try:
         cursor.execute("DELETE FROM emergency WHERE username = %s",
@@ -205,7 +206,7 @@ async def delete_emergency(username: str):
         return {"state": "Failed"}
 
 
-@app.get("birthdays/select")
+@app.get("/birthdays/select")
 async def select_birthdays(username: str):
     try:
         cursor.execute("SELECT * FROM birthdays WHERE username = %s",
@@ -215,11 +216,11 @@ async def select_birthdays(username: str):
         return {"state": "Failed"}
 
 
-@app.put("birthdays/insert")
+@app.put("/birthdays/insert")
 async def insert_birthdays(username: str, data: str):
     try:
         cursor.execute(
-            "INSERT INTO birthdays (username, data) VALUES (%s, %s) WHERE username = %s",
+            "INSERT INTO birthdays (username, data) VALUES (%s, %s)",
             (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username),
         )
         return {"state": "Success"}
@@ -227,7 +228,7 @@ async def insert_birthdays(username: str, data: str):
         return {"state": "Failed"}
 
 
-@app.patch("birthdays/update")
+@app.patch("/birthdays/update")
 async def update_birthdays(username: str, data: str):
     try:
         cursor.execute("UPDATE birthdays SET data = %s WHERE username = %s",
@@ -237,7 +238,7 @@ async def update_birthdays(username: str, data: str):
         return {"state": "Failed"}
 
 
-@app.delete("birthdays/delete")
+@app.delete("/birthdays/delete")
 async def delete_birthdays(username: str):
     try:
         cursor.execute("DELETE FROM birthdays WHERE username = %s",
