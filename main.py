@@ -2,9 +2,8 @@ from os import getenv
 
 from fastapi import FastAPI, Query
 from psycopg import connect
-from psycopg.types.json import Jsonb
 from psycopg.conninfo import conninfo_to_dict
-import psycopg
+from psycopg.types.json import Jsonb
 
 app: FastAPI = FastAPI()
 db = connect(**conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True)  # type: ignore
@@ -218,7 +217,8 @@ async def insert_birthdays(username: str, data: str):
             (username, Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]]))),
         )
         return {"state": "Success"}
-    except:
+    except BaseException as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -228,7 +228,8 @@ async def update_birthdays(username: str, data: str):
         cursor.execute("UPDATE birthdays SET data = %s WHERE username = %s",
                        (Jsonb(dict([(i[0][1:-1], i[1][1:-1]) for i in [j.split(":") for j in data.replace(" ","")[1:-1].split(",")]])), username))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
