@@ -1,6 +1,6 @@
 from os import getenv
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, CORSMiddleware
 from psycopg import connect
 from psycopg.conninfo import conninfo_to_dict
 from psycopg.types.json import Jsonb
@@ -8,6 +8,12 @@ from psycopg.types.json import Jsonb
 app: FastAPI = FastAPI()
 db = connect(**conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True)  # type: ignore
 cursor = db.cursor()
+
+origins = ['*']
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins
+)
 
 
 @app.get("/")
