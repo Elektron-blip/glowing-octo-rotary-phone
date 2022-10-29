@@ -33,5 +33,6 @@ toml
 tomli
 typing_extensions
 tzdata
+uvicorn
 wsproto
 yapf
