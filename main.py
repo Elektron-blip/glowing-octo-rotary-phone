@@ -6,7 +6,7 @@ from psycopg.conninfo import conninfo_to_dict
 from psycopg.types.json import Jsonb
 
 app: FastAPI = FastAPI()
-db = connect(**conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True)  # type: ignore
+db = connect(conninfo_to_dict(getenv("DATABASE_URL")),autocommit=True) # type: ignore
 cursor = db.cursor()
 
 
