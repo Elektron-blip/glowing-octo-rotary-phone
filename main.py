@@ -1,7 +1,7 @@
 from os import getenv
 
 from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from psycopg import connect
 from psycopg.conninfo import conninfo_to_dict
 from psycopg.types.json import Jsonb
