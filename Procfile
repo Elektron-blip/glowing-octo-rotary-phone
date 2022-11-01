@@ -1,1 +1,1 @@
-web: uvicorn main:app --host 0.0.0.0 --port $PORT
+web: hypercorn --bind 0.0.0.0:$PORT main:app
