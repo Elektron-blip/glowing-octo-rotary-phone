@@ -1,6 +1,6 @@
 from os import getenv
 
-from fastapi import FastAPI, Query, Request, Response
+from fastapi import FastAPI, Query
 from fastapi.middleware.gzip import GZipMiddleware
 from psycopg import connect
 from psycopg.conninfo import conninfo_to_dict
@@ -13,25 +13,16 @@ db = connect(
 )
 cursor = db.cursor()
 
-origins = ["*"]
+origins = ["https://old-person.elektron.space/"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "DELETE", "PUT", "PATCH"],
+    allow_methods=["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", "HEAD", "TRACE"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
 app.add_middleware(GZipMiddleware)
-
-
-@app.options("/{rest_of_path:path}")
-async def preflight_handler(request: Request, rest_of_path: str) -> Response:
-    response = Response()
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "POST, GET, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type"
-    return response
 
 
 @app.get("/")
