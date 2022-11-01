@@ -13,7 +13,7 @@ db = connect(
 )
 cursor = db.cursor()
 
-origins = ["https://old-person.elektron.space/"]
+origins = ["https://old-person.elektron.space/", "*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
