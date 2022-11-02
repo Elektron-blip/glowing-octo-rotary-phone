@@ -146,7 +146,7 @@ async def delete_alarms(username: str):
 async def select_medicines(username: str):
     try:
         cursor.execute("SELECT * FROM medicines WHERE username = %s", (username,))
-        return {"state": "Success", "data": cursor.fetchall()}
+        return {"state": "Success", "data": cursor.fetchone()}
     except:
         return {"state": "Failed"}
 
