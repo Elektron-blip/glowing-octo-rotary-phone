@@ -18,14 +18,14 @@ submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const newtime = num.newnum.value.split(",").join("&numbers=");
 
-    fetch(`https://old-person.elektron.space/emergency/update?username=${username}&numbers=${newtime}`, {
-        method: 'PATCH',
+    fetch(`https://old-person.elektron.space/emergency/insert?username=${username}&numbers=${newtime}`, {
+        method: 'PUT',
     })
         .then(response => {
             let data = response.json();
             if (data.state == "Failed") {
-                fetch(`https://old-person.elektron.space/emergency/insert?username=${username}&numbers=${newtime}`, {
-                    method: 'PUT',
+                fetch(`https://old-person.elektron.space/emergency/update?username=${username}&numbers=${newtime}`, {
+                    method: 'PATCH',
                 })
             }
         })
