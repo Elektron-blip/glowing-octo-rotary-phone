@@ -1,0 +1,29 @@
+<!-- alarms -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>alarm</title>
+  <link rel="stylesheet" href="common.css">
+  
+</head>
+
+<body>
+  <main id="main-holder">
+    <h1 id="stuff-header">alarm information</h1>
+    <h2 class="useless">the old alarm time is:</h2>
+    <h3 id="oldtime" class="useless">placeholder for old time</h3>
+    <h4 class="stuff-field">enter the new time:</h4>
+
+    <form id="submit-alarm-form"  align="center">
+        <input type="text" name="time" class="stuff-field" id="newtime" placeholder="enter the time">
+        <input type="submit" value="SUMBIT" class="stuff-field" id="submit-button">
+      </form>
+    
+      <div align="center" id="stuff-error-msg-holder" >
+        <p id="stuff-error-msg" class="stuff-field">Invalid time </p>
+      </div>
+    </main>
+</body>
+</html>

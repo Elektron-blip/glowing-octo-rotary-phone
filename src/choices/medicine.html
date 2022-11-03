@@ -1,0 +1,42 @@
+<!-- medicine -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>medical</title>
+  <link rel="stylesheet" href="medicine.css">
+  <script defer src="medicine.js"></script>
+</head>
+
+<body>
+  <main id="main-holder">
+    <h1 id="stuff-header">update-dosage</h1>
+    <form id="update-dosage"  align="center">
+        <input type="text" name="medname" class="stuff-field" id="medname" placeholder="enter name of medicine">
+        <input type="number" name="dosage" class="stuff-field" id="dosage" placeholder="amount replenished">
+        <input type="submit" value="SUMBIT" class="stuff-field" id="submit-button-update">
+      </form>
+    
+      <h2 id="stuff-header">stop medicine</h2>
+      <form id="delete-medicine"  align="center">
+        <input type="text" name="medname" class="stuff-field" id="medname" placeholder="enter name of medicine">
+        <input type="submit" value="SUMBIT" class="stuff-field" id="submit-button-delete">
+      </form>
+
+      <h3 id="stuff-header">new medicine</h3>
+      <form id="new-medicine"  align="center">
+        <input type="text" name="medname" class="stuff-field" id="medname" placeholder="enter name of medicine">
+        <input type="text" name="dosage" class="stuff-field" id="dosage" placeholder="enter amount (dosage)">
+        <input type="text" name="inventory" class="stuff-field" id="inventory" placeholder="current inventory">
+        <input type="text" name="medtime" class="stuff-field" id="medtime" placeholder="time to take medicines (eg: 10am,2pm)">
+        <input type="file" id="image" name="image" placeholder="upload">
+        <input type="submit" value="submit" class="stuff-field" id="submit-button-add">
+      </form>
+
+      <div align="center" id="date-error-msg-holder" >
+        <p id="stuff-error-msg" class="birthday-field">Invalid information </p>
+      </div>
+    </main>
+</body>
+</html>

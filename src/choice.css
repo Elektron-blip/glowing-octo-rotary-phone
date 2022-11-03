@@ -1,0 +1,47 @@
+html {
+    height: 100%;
+  }
+
+
+body{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+
+  .button { 
+    position:relative;
+    top:100px;
+    border: none;
+    color: white;
+    padding: 50px 140px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1.5px 0px;
+    cursor: pointer;
+  }
+  
+  .birthdays {
+    background-color: #0b1c6da4;
+  }
+
+  .alarms {
+    background-color: #713b9e;
+  } 
+
+  .finance {
+    background-color: #70d874;
+  } 
+
+  .medicine {
+    background-color: #7d3c79;
+    padding: 50px 240px;
+  } 
+
+  .emergencycontact {
+    background-color: #ff000095;
+    padding: 50px 240px;
+  } 

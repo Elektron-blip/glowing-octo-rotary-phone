@@ -1,0 +1,30 @@
+<!-- birthdays -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>birthdays</title>
+  <link rel="stylesheet" href="common.css">
+  <script defer src="alarms.js"></script>
+</head>
+
+<body>
+  <main id="main-holder">
+    <h1 id="stuff-header">birthdays information</h1>
+    <h2 class="useless">the list of old birthdays are: </h2>
+    <h3 id="old-list" class="useless">placeholder for current list </h3>
+    <h4 class="stuff-field">enter a new date:</h4>
+
+    <form id="submit-newdate"  align="center">
+        <input type="text" name="date" class="stuff-field" id="new-date" placeholder="enter the date">
+        <input type="text" name="name" class="stuff-field" id="name" placeholder="name">
+        <input type="submit" value="SUMBIT" class="stuff-field" id="submit-button">
+      </form>
+    
+      <div align="center" id="date-error-msg-holder" >
+        <p id="stuff-error-msg" class="stuff-field">Invalid date </p>
+      </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!-- finance -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>finance</title>
+  <link rel="stylesheet" href="common.css">
+  <script defer src="finance.js"></script>
+</head>
+
+<body>
+  <main id="main-holder">
+    <h1 id="stuff-header">finance information</h1>
+    <h2 class="useless">current financial information: </h2>
+    <h3 id="old-list" class="useless">placeholder for current list </h3>
+    <h4 class="stuff-field">enter new information:</h4>
+
+    <form id="submit-new-info"  align="center">
+        <input type="text" name="accno" class="stuff-field" id="acc-no" placeholder="account number">
+        <input type="text" name="name" class="stuff-field" id="branch" placeholder="name of branch">
+        <input type="number" name="name" class="stuff-field" id="loans" placeholder="any lones?">
+        <input type="submit" value="SUMBIT" class="stuff-field" id="submit-button">
+      </form>
+    
+      <div align="center" id="date-error-msg-holder" >
+        <p id="stuff-error-msg" class="birthday-field">Invalid information </p>
+      </div>
+    </main>
+</body>
+</html>
