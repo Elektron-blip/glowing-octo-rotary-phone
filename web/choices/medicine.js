@@ -7,24 +7,42 @@ const submitButtonnew = document.getElementById("submit-button-new");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
 
 
+
+
 submitButtonupdate.addEventListener("click", (e) => {
     e.preventDefault();
     const medname = updatedosage.medname.value;
     const dosage = updatedosage.dosage.value;
 
     if (medname && dosage){
-        // check if time is valid and do stuff
+        fetch(`https://old-person.elektron.space/medicine/update?username=${username}&numbers=${medname}`,{
+            method:'PUT',
+            headers:{
+            'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'username':username,
+            'name':medname,
+            'inventory':dosage})
+            })
     } else {
         stuffErrorMsg.style.opacity = 1;
     }
 })
+
 
 submitButtondelete.addEventListener("click", (e) => {
     e.preventDefault();
     const medname = deletedosage.medname.value;
 
     if (medname){
-        // check if time is valid and do stuff
+        fetch(`https://old-person.elektron.space/medicine/delete?username=${username}&data=${medname}`,{
+            method:'PUT',
+            headers:{
+            'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'username':username,
+            'name':medname})
+            })
     } else {
         stuffErrorMsg.style.opacity = 1;
     }
@@ -37,9 +55,34 @@ submitButtonnew.addEventListener("click", (e) => {
     const inventory = newmed.inventory.value;
     const medtime = newmed.medtime.value;
     const image = newmed.image.value;
-    
+    const reader = new FileReader();
+    const fileByteArray = [];
+    reader.readAsArrayBuffer(e.target.files[0]);
+    reader.onloadend = (evt) => {
+    if (evt.target.readyState === FileReader.DONE) {
+      const arrayBuffer = evt.target.result,
+        array = new Uint8Array(arrayBuffer);
+      for (const a of array) {
+        fileByteArray.push(a);
+      }
+      console.log(fileByteArray)
+    }
+  }
+
+
+
     if (medname && dosage && inventory && medtime && image){
-        // check if time is valid and do stuff
+        fetch(`https://old-person.elektron.space/medicine/insert?username=${username}&data=${medname}`,{
+            method:'PUT',
+            headers:{
+            'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'username':username,
+            'name':medname,
+            'dosage':dosage,
+            'time':medtime,
+            'image':fileByteArray})
+            })
     } else {
         stuffErrorMsg.style.opacity = 1;
     }
