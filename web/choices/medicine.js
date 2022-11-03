@@ -71,7 +71,7 @@ submitButtonnew.addEventListener("click", (e) => {
             .then(response => {
                 response.json().then(response => {
                     let data = response;
-                    if (data.state === "Failed" || data.data ===null ) { stuffErrorMsg.style.opacity = 1 } else {
+                    
                         data.data[1][medname] = { "dosage": dosage, "inventory": inventory, "medtime": medtime };
                         fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
                             method: 'PATCH',
@@ -87,7 +87,7 @@ submitButtonnew.addEventListener("click", (e) => {
                                 }
                                 )
                             })
-                    }
+                    
                 })
             })
     } else {
