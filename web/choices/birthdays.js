@@ -1,7 +1,7 @@
 const date = document.getElementById("submit-newdate");
 const submitButton = document.getElementById("submit-button");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
-
+const old_time = document.getElementById("old-list");
 var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 
@@ -9,7 +9,7 @@ const username = getusername.get('username')
 fetch(`https://old-person.elektron.space/birthdays/select?username=${username}`).then(response => {
     response.json().then(data => {
         console.log(data);
-        old_time.textContent = data.data[1];
+        old_list.textContent = data.data[1];
     })
 })
 
