@@ -12,22 +12,21 @@ fetch(`https://old-person.elektron.space/emergency/select?username=${username}`)
     })
 })
 
+
+
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const newnum = num.newnum.value;
+    const newtime = time.newtime.value.split(",").join("&numbers=");
 
-    if (newnum) {
-        fetch(`https://old-person.elektron.space/emergency/update?username=${username}&data=${newnum}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'username': username,
-                'number': newnum
-            })
+    fetch(`https://old-person.elektron.space/emergency/update?username=${username}&numbers=${newtime}`, {
+        method: 'PATCH',
+    })
+        .then(response => {
+            let data = response.json();
+            if (data.state == "Failed") {
+                fetch(`https://old-person.elektron.space/emergency/insert?username=${username}&numbers=${newtime}`, {
+                    method: 'PUT',
+                })
+            }
         })
-    } else {
-        stuffErrorMsg.style.opacity = 1;
-    }
 })
