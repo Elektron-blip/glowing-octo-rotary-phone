@@ -22,13 +22,13 @@ submitButton.addEventListener("click", (e) => {
         fetch(`https://old-person.elektron.space/birthdays/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
             method: 'PUT',
         }).then(response => {
-            let data = response.json();
+            response.json().then(data => {
             if (data.state == "Failed") {
                 fetch(`https://old-person.elektron.space/birthdays/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
                     method: 'PATCH',
                 })
             }
-        })
+    })})
     } else {
         stuffErrorMsg.style.opacity = 1;
     }
