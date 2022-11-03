@@ -21,5 +21,14 @@ submitButton.addEventListener("click", (e) => {
     const newtime = time.newtime.value.split(",").join("&alarms=");
 
     fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${newtime}`, {
-            method: 'PATCH',})
+        method: 'PATCH',
+    })
+        .then(response => {
+            let data = response.json();
+            if (data.state == "Failed") {
+                fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${newtime}`, {
+                    method: 'PUT',
+                })
+            }
+        })
 })
