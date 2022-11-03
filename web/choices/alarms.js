@@ -21,24 +21,8 @@ submitButton.addEventListener("click", (e) => {
     const newtime = time.newtime.value;
 
     if (newtime.lenght <= 20) {
-        fetch(`https://old-person.elektron.space/alarms/update?username=${username}`, {
+        fetch(`https://old-person.elektron.space/alarms/update?username=${username}&data=${JSON.stringify({ 'username': username, 'time': newtime })}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 'username': username, 'time': newtime })
-        }).then(response => {
-            let data = response.json()
-            console.log(data)
-            if (data.state === "Failed") {
-                fetch(`https://old-person.elektron.space/alarms/update?username=${username}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 'username': username, 'time': newtime })
-                })
-            } else { stuffErrorMsg.style.opacity = 1; }
         })
     } else {
         stuffErrorMsg.style.opacity = 1;
