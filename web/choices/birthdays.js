@@ -16,7 +16,7 @@ fetch(`https://old-person.elektron.space/birthdays/select?username=${username}`)
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const name = date.name.value;
-    const newdate = date.new - date.value;
+    const newdate = date.name.value;
     const data = { "name": name, "date": newdate }
     if (name && date) {
         fetch(`https://old-person.elektron.space/birthdays/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
