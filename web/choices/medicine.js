@@ -77,7 +77,7 @@ submitButtonnew.addEventListener("click", (e) => {
                             method: 'PATCH',
                         })
                     } else {
-                        data.data =[{medname: { "dosage": dosage, "inventory": inventory, "medtime": medtime }}]
+                        data.data =[{medname: { "dosage": dosage, "inventory": inventory, "medtime": medtime }},]
                         console.log(data)
                         fetch(`https://old-person.elektron.space/medicines/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
                             method: 'PUT',
