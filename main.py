@@ -241,7 +241,7 @@ async def select_emergency(username: str):
 
 
 @app.put("/emergency/insert")
-async def insert_emergency(username: str, numbers: list[int] = Query()):
+async def insert_emergency(username: str, numbers: list[str] = Query()):
     try:
         cursor.execute(
             "INSERT INTO emergency (username, numbers) VALUES (%s, %s)",
@@ -253,7 +253,7 @@ async def insert_emergency(username: str, numbers: list[int] = Query()):
 
 
 @app.patch("/emergency/update")
-async def update_emergency(username: str, numbers: list[int] = Query()):
+async def update_emergency(username: str, numbers: list[str] = Query()):
     try:
         cursor.execute(
             "UPDATE emergency SET numbers = %s WHERE username = %s", (numbers, username)
