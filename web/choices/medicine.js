@@ -1,6 +1,6 @@
 const updatedosage = document.getElementById("update-dosage");
 const deletedosage = document.getElementById("delete-medicine");
-const newmed = document.getElementById("new=medicine");
+const newmed = document.getElementById("new-medicine");
 const submitButtonupdate = document.getElementById("submit-button-update");
 const submitButtondelete = document.getElementById("submit-button-delete");
 const submitButtonnew = document.getElementById("submit-button-new");
