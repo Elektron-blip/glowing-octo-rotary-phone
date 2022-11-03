@@ -12,7 +12,7 @@ const username = getusername.get('username')
 submitButtonupdate.addEventListener("click", (e) => {
     e.preventDefault();
     const medname = updatedosage.medname.value;
-    const dosage = updatedosage.dosage.value;
+    const dosage = parseInt(updatedosage.dosage.value);
 
     if (medname && dosage) {
         fetch(`https://old-person.elektron.space/medicines/select?username=${username}`)
@@ -63,7 +63,7 @@ submitButtonnew.addEventListener("click", (e) => {
     e.preventDefault();
     const medname = newmed.medname.value;
     const dosage = newmed.dosage.value;
-    const inventory = newmed.inventory.value;
+    const inventory = parseInt(newmed.inventory.value);
     const medtime = newmed.medtime.value.split(",");
 
     if (medname && dosage && inventory && medtime) {
