@@ -2,7 +2,7 @@ const num = document.getElementById("submit-number-form");
 const submitButton = document.getElementById("submit-button");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
 
-fetch( `https://old-person.elektron.space/alarms/emergency/select?username=${username}` ,{mode:"no-cors"})
+fetch( `https://old-person.elektron.space/emergency/select?username=${username}` ,{mode:"no-cors"})
 .then( response => {
 let data = response.json()
 console.log(data)

@@ -6,7 +6,7 @@ var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 
 
-fetch( `https://old-person.elektron.space/alarms/birthdays/select?username=${username}` ,{mode:"no-cors"})
+fetch( `https://old-person.elektron.space/birthdays/select?username=${username}` ,{mode:"no-cors"})
 .then( response => {
 let data = response.json()
 console.log(data)
