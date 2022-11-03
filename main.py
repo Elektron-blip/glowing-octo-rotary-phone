@@ -2,6 +2,8 @@ from os import getenv
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from psycopg import connect
 from psycopg.conninfo import conninfo_to_dict
 from psycopg.types.json import Jsonb
@@ -24,10 +26,15 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware)
 
+app.mount("/web", StaticFiles(directory='web'), name='web')
 
-@app.get("/")
+@app.get("/", response_class=RedirectResponse, status_code=302)
 async def read_root():
-    return {"message": "Hello World"}
+    return "https://old-person.elektron.space/web/website"
+
+@app.get("/web", response_class=RedirectResponse, status_code=302)
+async def read_root():
+    return "https://old-person.elektron.space/web/website"
 
 
 @app.get("/finance/select")
