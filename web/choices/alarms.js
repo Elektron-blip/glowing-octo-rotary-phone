@@ -11,7 +11,7 @@ fetch( `https://old-person.elektron.space/alarms/select?username=${username}` ,{
 .then( response => {
 let data = response.json()
 console.log(data)
-old_time.textContent(data);
+old_time.textContent=data.data[1];
 })
 
 
