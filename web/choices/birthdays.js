@@ -5,12 +5,12 @@ const stuffErrorMsg = document.getElementById("stuff-error-msg");
 var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 
-const username = getusername.get('username')
-fetch( `https://old-person.elektron.space/birthdays/select?username=${username}` ,{mode:"no-cors"})
-.then( response => {
-let data = response.json()
-console.log(data)
-old_time.textContent(data);
+
+fetch(`https://old-person.elektron.space/birthdays/select?username=${username}`).then(response => {
+    response.json().then(data => {
+        console.log(data);
+        old_time.textContent = data.data[1];
+    })
 })
 
 submitButton.addEventListener("click", (e) => {
