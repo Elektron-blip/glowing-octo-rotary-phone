@@ -18,8 +18,8 @@ fetch(`https://old-person.elektron.space/alarms/select?username=${username}`).th
 
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const newtime = time.newtime.value;
+    const newtime = time.newtime.value.split(",").join("&alarms=");
 
-    fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${JSON.stringify(newtime.split(","))}`, {
+    fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${newtime}`, {
             method: 'PATCH',})
 })
