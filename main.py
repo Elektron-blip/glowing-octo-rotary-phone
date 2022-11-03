@@ -36,6 +36,13 @@ async def read_root():
 async def read_root():
     return "https://old-person.elektron.space/web/website.html"
 
+@app.get("/username/select")
+async def select_user(username:str):
+    try:
+        cursor.execute("SELECT * FROM Users WHERE username = %s", (username,))
+        return {"state": "Success", "data": cursor.fetchone()}
+    except:
+        return {"state": "Failed"}
 
 @app.get("/finance/select")
 async def select_finance(username: str):

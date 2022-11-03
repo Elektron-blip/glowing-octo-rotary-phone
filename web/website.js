@@ -13,7 +13,7 @@ loginButton.addEventListener("click", (e) => {
     fetch( `https://old-person.elektron.space/username/select?username=${username}` )
     .then( response => {
     let data = response.json()
-    if (data.username === password) {
+    if (data.[1] === password) {
         location.href = `choice.html?username=${username}`
     } else {
         loginErrorMsg.style.opacity = 1;
