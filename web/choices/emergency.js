@@ -1,6 +1,7 @@
 const num = document.getElementById("submit-number-form");
 const submitButton = document.getElementById("submit-button");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
+var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 fetch( `https://old-person.elektron.space/emergency/select?username=${username}` ,{mode:"no-cors"})
 .then( response => {

@@ -5,7 +5,7 @@ const submitButtonupdate = document.getElementById("submit-button-update");
 const submitButtondelete= document.getElementById("submit-button-delete");
 const submitButtonnew = document.getElementById("submit-button-new");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
-
+var getusername = new URLSearchParams(location.search);
 
 const username = getusername.get('username')
 
