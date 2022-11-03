@@ -19,19 +19,16 @@ submitButton.addEventListener("click", (e) => {
     const loans = information.loans.value;
 
     const data = { "accno": accno, "branch": branch, "loans": loans }
-    if (name && date) {
-        fetch(`https://old-person.elektron.space/finance/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
-            method: 'PUT',
-        }).then(response => {
-            response.json().then(response => {
-                if (response.state == "Failed") {
-                    fetch(`https://old-person.elektron.space/finance/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
-                        method: 'PATCH',
-                    })
-                }
-            })
+
+    fetch(`https://old-person.elektron.space/finance/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+        method: 'PUT',
+    }).then(response => {
+        response.json().then(response => {
+            if (response.state == "Failed") {
+                fetch(`https://old-person.elektron.space/finance/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+                    method: 'PATCH',
+                })
+            }
         })
-    } else {
-        stuffErrorMsg.style.opacity = 1;
-    }
+    })
 })
