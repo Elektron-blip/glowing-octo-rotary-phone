@@ -33,7 +33,7 @@ async def read_root():
     return "https://old-person.elektron.space/web/website.html"
 
 @app.get("/web", response_class=RedirectResponse, status_code=302)
-async def read_root():
+async def read_web():
     return "https://old-person.elektron.space/web/website.html"
 
 @app.get("/username/select")
