@@ -14,7 +14,7 @@ fetch(`https://old-person.elektron.space/finance/select?username=${username}`).t
 
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const accno = information.acc;
+    const accno = information.acc.value;
     const branch = information.branch.value;
     const loans = information.loans.value;
 
