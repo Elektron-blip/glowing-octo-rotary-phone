@@ -20,6 +20,6 @@ submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const newtime = time.newtime.value;
 
-    fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${JSON.stringify(newtime.split(","))}`, {
+    fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${newtime.split(",")}`, {
             method: 'PATCH',})
 })
