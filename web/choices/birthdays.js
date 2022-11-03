@@ -1,7 +1,7 @@
 const date = document.getElementById("submit-newdate");
 const submitButton = document.getElementById("submit-button");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
-const old_time = document.getElementById("old-list");
+const old_list = document.getElementById("old-list");
 var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 
@@ -16,21 +16,19 @@ fetch(`https://old-person.elektron.space/birthdays/select?username=${username}`)
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const name = date.name.value;
-    const newdate = date.new-date.value;
-
-    if (name && date ){
-    fetch(`https://old-person.elektron.space/birthdays/update?username=${username}&data=${newdate}`,{
-    method:'PUT',
-    headers:{
-    'Content-Type':'application/json'
-    },
-    body:JSON.stringify({'username':username,
-     'name':name,
-     'date':newdate})
-     })
-    // }).then(response=>{
-    //     return response.json()
-    // })
+    const newdate = date.new - date.value;
+    const data = { "name": name, "date": newdate }
+    if (name && date) {
+        fetch(`https://old-person.elektron.space/birthdays/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+            method: 'PUT',
+        }).then(response => {
+            let data = response.json();
+            if (data.state == "Failed") {
+                fetch(`https://old-person.elektron.space/birthdays/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+                    method: 'PATCH',
+                })
+            }
+        })
     } else {
         stuffErrorMsg.style.opacity = 1;
     }
