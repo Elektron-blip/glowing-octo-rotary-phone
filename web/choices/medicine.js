@@ -15,7 +15,7 @@ submitButtonupdate.addEventListener("click", (e) => {
     const dosage = updatedosage.dosage.value;
 
     if (medname && dosage) {
-        fetch(`https://old-person.elektron.space/medicines/update?username=${username}`)
+        fetch(`https://old-person.elektron.space/medicines/select?username=${username}`)
             .then(response => {
                 response.json().then(response => {
                     let data = response;
@@ -45,12 +45,12 @@ submitButtondelete.addEventListener("click", (e) => {
                 response.json().then(response => {
                     let data = response;
                     if (data.state == "Failed") { stuffErrorMsg.style.opacity = 1 } else {
-                        if (medname === data.data[1][medname]) {
-                            delete data.data[1][medname];
-                            fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
-                                method: 'PATCH',
-                            })
-                        } else { stuffErrorMsg.style.opacity = 1; }
+
+                        delete data.data[1][medname];
+                        fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
+                            method: 'PATCH',
+                        })
+
                     }
                 })
             })
