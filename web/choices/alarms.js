@@ -9,8 +9,8 @@ const username = getusername.get('username')
 
 fetch( `https://old-person.elektron.space/alarms/select?username=${username}` ,{mode:"no-cors"})
 .then( response => {
-let data = response.json()
-console.log(data)
+let data = response.json();
+console.log(data);
 old_time.textContent=data.data[1];
 })
 
