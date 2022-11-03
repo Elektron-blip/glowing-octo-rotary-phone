@@ -22,7 +22,7 @@ submitButtonupdate.addEventListener("click", (e) => {
                     if (data.state == "Failed") { stuffErrorMsg.style.opacity = 1 } else {
                         if (medname) {
                             data.data[1][medname].inventory += dosage;
-                            fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
+                            fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${JSON.stringify(data.data[1])}`, {
                                 method: 'PATCH',
                             })
                         } else { stuffErrorMsg.style.opacity = 1; }
