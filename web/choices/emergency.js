@@ -16,7 +16,7 @@ fetch(`https://old-person.elektron.space/emergency/select?username=${username}`)
 
 submitButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const newtime = time.newtime.value.split(",").join("&numbers=");
+    const newtime = num.newnum.value.split(",").join("&numbers=");
 
     fetch(`https://old-person.elektron.space/emergency/update?username=${username}&numbers=${newtime}`, {
         method: 'PATCH',
