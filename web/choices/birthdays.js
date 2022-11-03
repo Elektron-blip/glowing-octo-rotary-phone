@@ -5,7 +5,7 @@ const stuffErrorMsg = document.getElementById("stuff-error-msg");
 var getusername = new URLSearchParams(location.search);
 const username = getusername.get('username')
 
-
+const username = getusername.get('username')
 fetch( `https://old-person.elektron.space/birthdays/select?username=${username}` ,{mode:"no-cors"})
 .then( response => {
 let data = response.json()

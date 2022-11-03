@@ -7,7 +7,7 @@ const submitButtonnew = document.getElementById("submit-button-new");
 const stuffErrorMsg = document.getElementById("stuff-error-msg");
 
 
-
+const username = getusername.get('username')
 
 submitButtonupdate.addEventListener("click", (e) => {
     e.preventDefault();
