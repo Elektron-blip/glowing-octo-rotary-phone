@@ -20,11 +20,6 @@ submitButton.addEventListener("click", (e) => {
     e.preventDefault();
     const newtime = time.newtime.value;
 
-    if (newtime.lenght <= 20) {
-        fetch(`https://old-person.elektron.space/alarms/update?username=${username}&data=${JSON.stringify({ 'username': username, 'time': newtime })}`, {
-            method: 'PUT',
-        })
-    } else {
-        stuffErrorMsg.style.opacity = 1;
-    }
+    fetch(`https://old-person.elektron.space/alarms/update?username=${username}&data=${JSON.stringify({ 'username': username, 'time': newtime })}`, {
+            method: 'PATCH',})
 })
