@@ -34,7 +34,7 @@ async def read_root():
 
 @app.get("/web", response_class=RedirectResponse, status_code=302)
 async def read_root():
-    return "https://old-person.elektron.space/web/website"
+    return "https://old-person.elektron.space/web/website.html"
 
 
 @app.get("/finance/select")
