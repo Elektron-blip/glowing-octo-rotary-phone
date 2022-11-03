@@ -72,11 +72,12 @@ submitButtonnew.addEventListener("click", (e) => {
                 response.json().then(response => {
                     let data = response;
                     if (data.data == null) {
-                        data.data[1][medname] = { "dosage": dosage, "inventory": inventory, "medtime": medtime };
+                        data.data =[{medname: { "dosage": dosage, "inventory": inventory, "medtime": medtime }}]
                         fetch(`https://old-person.elektron.space/medicines/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
                             method: 'PATCH',
                         })
                     } else {
+                        data.data =[{medname: { "dosage": dosage, "inventory": inventory, "medtime": medtime }}]
                         fetch(`https://old-person.elektron.space/medicines/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data.data[1]))}`, {
                             method: 'PUT',
                         })
