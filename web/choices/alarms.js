@@ -26,7 +26,7 @@ submitButton.addEventListener("click", (e) => {
         .then(response => {
             let data = response.json();
             if (data.state == "Failed") {
-                fetch(`https://old-person.elektron.space/alarms/update?username=${username}&alarms=${newtime}`, {
+                fetch(`https://old-person.elektron.space/alarms/insert?username=${username}&alarms=${newtime}`, {
                     method: 'PUT',
                 })
             }

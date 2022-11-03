@@ -9,7 +9,7 @@ const username = getusername.get('username')
 fetch(`https://old-person.elektron.space/birthdays/select?username=${username}`).then(response => {
     response.json().then(data => {
         console.log(data);
-        old_list.textContent = data.data[1];
+        old_list.textContent = JSON.stringify(data.data[1]);
     })
 })
 
@@ -19,7 +19,7 @@ submitButton.addEventListener("click", (e) => {
     const newdate = date.new - date.value;
     const data = { "name": name, "date": newdate }
     if (name && date) {
-        fetch(`https://old-person.elektron.space/birthdays/update?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+        fetch(`https://old-person.elektron.space/birthdays/insert?username=${username}&data=${encodeURIComponent(JSON.stringify(data))}`, {
             method: 'PUT',
         }).then(response => {
             let data = response.json();
