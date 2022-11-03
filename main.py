@@ -235,7 +235,7 @@ async def delete_medicines(username: str):
 async def select_emergency(username: str):
     try:
         cursor.execute("SELECT * FROM emergency WHERE username = %s", (username,))
-        return {"state": "Success", "data": cursor.fetchall()}
+        return {"state": "Success", "data": cursor.fetchone()}
     except:
         return {"state": "Failed"}
 
