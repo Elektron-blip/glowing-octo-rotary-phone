@@ -7,7 +7,7 @@ const username = getusername.get('username')
 fetch(`https://old-person.elektron.space/finance/select?username=${username}`).then(response => {
     response.json().then(data => {
         console.log(data);
-        old_list.textContent = data.data[1];
+        old_list.textContent = JSON.stringify(data.data[1]);
     })
 })
 
