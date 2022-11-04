@@ -30,12 +30,10 @@ app.add_middleware(GZipMiddleware)
 
 app.mount("/web", StaticFiles(directory="web"), name="web")
 
-favicon_path = "favicon.ico"
 
-
-@app.get("/favicon.ico", include_in_schema=False)
+@app.get("/favicon.ico")
 async def favicon():
-    return FileResponse(favicon_path)
+    return FileResponse('favicon.ico')
 
 
 @app.get("/", response_class=RedirectResponse, status_code=302)
