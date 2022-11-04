@@ -46,7 +46,8 @@ async def select_user(username: str):
     try:
         cursor.execute("SELECT * FROM Users WHERE username = %s", (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -56,7 +57,8 @@ async def select_finance(username: str):
         cursor.execute("SELECT * FROM finance WHERE username = %s",
                        (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -71,7 +73,8 @@ async def insert_finance(username: str, data: str):
             ),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -86,7 +89,8 @@ async def update_finance(username: str, data: str):
             ),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -98,7 +102,8 @@ async def delete_finance(username: str):
             (username, ),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -108,7 +113,8 @@ async def select_alarms(username: str):
         cursor.execute("SELECT * FROM alarms WHERE username = %s",
                        (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -120,7 +126,8 @@ async def insert_alarms(username: str, alarms: list[str] = Query()):
             (username, alarms),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -130,7 +137,8 @@ async def update_alarms(username: str, alarms: list[str] = Query()):
         cursor.execute("UPDATE alarms SET alarms = %s WHERE username = %s",
                        (alarms, username))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -139,7 +147,8 @@ async def delete_alarms(username: str):
     try:
         cursor.execute("DELETE FROM alarms WHERE username = %s", (username, ))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -149,7 +158,8 @@ async def select_medicines(username: str):
         cursor.execute("SELECT * FROM medicines WHERE username = %s",
                        (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -168,7 +178,8 @@ async def insert_medicines(username: str, data: str):
             ),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -183,7 +194,8 @@ async def update_medicines(username: str, data: str):
             ),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -195,7 +207,9 @@ async def delete_medicines(username: str):
             (username),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
+        print(e)
         return {"state": "Failed"}
 
 
@@ -205,7 +219,8 @@ async def select_emergency(username: str):
         cursor.execute("SELECT * FROM emergency WHERE username = %s",
                        (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -217,7 +232,8 @@ async def insert_emergency(username: str, numbers: list[str] = Query()):
             (username, numbers),
         )
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -227,7 +243,8 @@ async def update_emergency(username: str, numbers: list[str] = Query()):
         cursor.execute("UPDATE emergency SET numbers = %s WHERE username = %s",
                        (numbers, username))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -237,7 +254,8 @@ async def delete_emergency(username: str):
         cursor.execute("DELETE FROM emergency WHERE username = %s",
                        (username, ))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -247,7 +265,8 @@ async def select_birthdays(username: str):
         cursor.execute("SELECT * FROM birthdays WHERE username = %s",
                        (username, ))
         return {"state": "Success", "data": cursor.fetchone()}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
 
 
@@ -289,5 +308,6 @@ async def delete_birthdays(username: str):
         cursor.execute("DELETE FROM birthdays WHERE username = %s",
                        (username, ))
         return {"state": "Success"}
-    except:
+    except Exception as e:
+        print(e)
         return {"state": "Failed"}
