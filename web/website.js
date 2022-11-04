@@ -14,6 +14,7 @@ loginButton.addEventListener("click", (e) => {
         .then(response => {
             response.json().then(response => {
                 let data = response;
+                console.log(data);
                 if (data.data[1] === password) {
                     location.href = `choice.html?username=${username}`
                 } else {
