@@ -12,8 +12,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 app: FastAPI = FastAPI()
 db = connect(
-    **conninfo_to_dict(getenv("DATABASE_URL")),
-    autocommit=True  # type: ignore
+    **conninfo_to_dict(getenv("DATABASE_URL")),   # type: ignore
+    autocommit=True
 )
 cursor = db.cursor()
 
@@ -204,7 +204,7 @@ async def delete_medicines(username: str):
     try:
         cursor.execute(
             "DELETE FROM medicines WHERE username = %s",
-            (username),
+            (username,)
         )
         return {"state": "Success"}
     except Exception as e:
