@@ -2,6 +2,7 @@ from os import getenv
 from json import loads
 
 from fastapi import FastAPI, Query
+from fastapi.responses import FileResponse
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,8 +13,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 app: FastAPI = FastAPI()
 db = connect(
-    **conninfo_to_dict(getenv("DATABASE_URL")),   # type: ignore
-    autocommit=True
+    **conninfo_to_dict(getenv("DATABASE_URL")), autocommit=True  # type: ignore
 )
 cursor = db.cursor()
 
@@ -30,6 +30,13 @@ app.add_middleware(GZipMiddleware)
 
 app.mount("/web", StaticFiles(directory="web"), name="web")
 
+favicon_path = "favicon.ico"
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
+
 
 @app.get("/", response_class=RedirectResponse, status_code=302)
 async def read_root():
@@ -44,7 +51,7 @@ async def read_web():
 @app.get("/username/select")
 async def select_user(username: str):
     try:
-        cursor.execute("SELECT * FROM Users WHERE username = %s", (username, ))
+        cursor.execute("SELECT * FROM Users WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -54,8 +61,7 @@ async def select_user(username: str):
 @app.get("/finance/select")
 async def select_finance(username: str):
     try:
-        cursor.execute("SELECT * FROM finance WHERE username = %s",
-                       (username, ))
+        cursor.execute("SELECT * FROM finance WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -99,7 +105,7 @@ async def delete_finance(username: str):
     try:
         cursor.execute(
             "DELETE FROM finance WHERE username = %s",
-            (username, ),
+            (username,),
         )
         return {"state": "Success"}
     except Exception as e:
@@ -110,8 +116,7 @@ async def delete_finance(username: str):
 @app.get("/alarms/select")
 async def select_alarms(username: str):
     try:
-        cursor.execute("SELECT * FROM alarms WHERE username = %s",
-                       (username, ))
+        cursor.execute("SELECT * FROM alarms WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -134,8 +139,9 @@ async def insert_alarms(username: str, alarms: list[str] = Query()):
 @app.patch("/alarms/update")
 async def update_alarms(username: str, alarms: list[str] = Query()):
     try:
-        cursor.execute("UPDATE alarms SET alarms = %s WHERE username = %s",
-                       (alarms, username))
+        cursor.execute(
+            "UPDATE alarms SET alarms = %s WHERE username = %s", (alarms, username)
+        )
         return {"state": "Success"}
     except Exception as e:
         print(e)
@@ -145,7 +151,7 @@ async def update_alarms(username: str, alarms: list[str] = Query()):
 @app.delete("/alarms/delete")
 async def delete_alarms(username: str):
     try:
-        cursor.execute("DELETE FROM alarms WHERE username = %s", (username, ))
+        cursor.execute("DELETE FROM alarms WHERE username = %s", (username,))
         return {"state": "Success"}
     except Exception as e:
         print(e)
@@ -155,8 +161,7 @@ async def delete_alarms(username: str):
 @app.get("/medicines/select")
 async def select_medicines(username: str):
     try:
-        cursor.execute("SELECT * FROM medicines WHERE username = %s",
-                       (username, ))
+        cursor.execute("SELECT * FROM medicines WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -202,10 +207,7 @@ async def update_medicines(username: str, data: str):
 @app.delete("/medicines/delete")
 async def delete_medicines(username: str):
     try:
-        cursor.execute(
-            "DELETE FROM medicines WHERE username = %s",
-            (username,)
-        )
+        cursor.execute("DELETE FROM medicines WHERE username = %s", (username,))
         return {"state": "Success"}
     except Exception as e:
         print(e)
@@ -216,8 +218,7 @@ async def delete_medicines(username: str):
 @app.get("/emergency/select")
 async def select_emergency(username: str):
     try:
-        cursor.execute("SELECT * FROM emergency WHERE username = %s",
-                       (username, ))
+        cursor.execute("SELECT * FROM emergency WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -240,8 +241,9 @@ async def insert_emergency(username: str, numbers: list[str] = Query()):
 @app.patch("/emergency/update")
 async def update_emergency(username: str, numbers: list[str] = Query()):
     try:
-        cursor.execute("UPDATE emergency SET numbers = %s WHERE username = %s",
-                       (numbers, username))
+        cursor.execute(
+            "UPDATE emergency SET numbers = %s WHERE username = %s", (numbers, username)
+        )
         return {"state": "Success"}
     except Exception as e:
         print(e)
@@ -251,8 +253,7 @@ async def update_emergency(username: str, numbers: list[str] = Query()):
 @app.delete("/emergency/delete")
 async def delete_emergency(username: str):
     try:
-        cursor.execute("DELETE FROM emergency WHERE username = %s",
-                       (username, ))
+        cursor.execute("DELETE FROM emergency WHERE username = %s", (username,))
         return {"state": "Success"}
     except Exception as e:
         print(e)
@@ -262,8 +263,7 @@ async def delete_emergency(username: str):
 @app.get("/birthdays/select")
 async def select_birthdays(username: str):
     try:
-        cursor.execute("SELECT * FROM birthdays WHERE username = %s",
-                       (username, ))
+        cursor.execute("SELECT * FROM birthdays WHERE username = %s", (username,))
         return {"state": "Success", "data": cursor.fetchone()}
     except Exception as e:
         print(e)
@@ -305,8 +305,7 @@ async def update_birthdays(username: str, data: str):
 @app.delete("/birthdays/delete")
 async def delete_birthdays(username: str):
     try:
-        cursor.execute("DELETE FROM birthdays WHERE username = %s",
-                       (username, ))
+        cursor.execute("DELETE FROM birthdays WHERE username = %s", (username,))
         return {"state": "Success"}
     except Exception as e:
         print(e)
